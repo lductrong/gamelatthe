@@ -1,14 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import Card from './Card';
 import './App.css';
+import image1 from './image/1.jpg'
+import image2 from './image/2.jpg'
+import image3 from './image/3.jpg'
+import image4 from './image/4.jpg'
+import image5 from './image/5.jpg'
+import image6 from './image/6.jpg'
+
 
 const App = () => {
-  const images = ['🍎', '🍌', '🍒', '🍉', '🍇', '🍍'];  // Danh sách hình ảnh
+  const images = [image1,image2,image3,image4,image5,image6];  // Danh sách hình ảnh
   const [cards, setCards] = useState([]);  // Lưu trữ tất cả thẻ
   const [flipped, setFlipped] = useState([]);  // Các thẻ đang bị lật
   const [matched, setMatched] = useState([]);  // Các thẻ đã ghép đúng
   const [moves, setMoves] = useState(0);  // Đếm số lượt di chuyển
   const [gameOver, setGameOver] = useState(false);  // Trạng thái trò chơi
+  const [score, setScore] = useState(0);
 
   // Tạo bộ thẻ ngẫu nhiên
   useEffect(() => {
@@ -41,6 +49,7 @@ const App = () => {
       if (firstCard.image === secondCard.image) {
         setMatched(prevMatched => [...prevMatched, firstCard.image]);
         setFlipped([]);
+        setScore(prevScore => prevScore + 1); // Cập nhật điểm
       } else {
         setTimeout(() => {
           setCards(cards.map(card =>
@@ -54,7 +63,7 @@ const App = () => {
 
   // Kiểm tra khi nào trò chơi kết thúc
   useEffect(() => {
-    if (matched.length === images.length) {
+    if (score==6) {
       setGameOver(true);
     }
   }, [matched]);
@@ -63,6 +72,7 @@ const App = () => {
     <div className="game">
       <h1>Memory Game</h1>
       <div className="score">
+        <p>Điểm: {score}</p>
         <p>Lượt đi: {moves}</p>
         {gameOver && <p>Chúc mừng! Bạn đã chiến thắng!</p>}
       </div>
